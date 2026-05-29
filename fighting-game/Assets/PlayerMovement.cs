@@ -8,10 +8,12 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 12f;
     public float dashSpeed = 15f;
     public float dashDuration = 0.2f;
+
+    [Header("Input Filters")]
     public float doubleTapThreshold = 0.3f;
+    public float deadzone = 0.3f;
 
     [Header("Player 1 Input Configuration")]
-    [Tooltip("Map these exact names in Edit -> Project Settings -> Input Manager")]
     public string p1HorizontalAxis = "P1_Horizontal";
     public string p1VerticalAxis = "P1_Vertical";
 
@@ -20,10 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
-    // --- STATES ---
-    [Header("Current States")]
+    // STATES
     public bool isGrounded;
-    public bool isCrouching;
     public bool isDashing;
 
     private Rigidbody2D rb;
@@ -31,15 +31,10 @@ public class PlayerMovement : MonoBehaviour
     private float verticalInput;
     private float previousHorizontalInput;
 
-    // Dash Tracking
+    private bool isJumpAxisInUse;
     private float lastTapTime;
     private float lastTapDirection;
     private float currentDashTime;
-
-    // Anti-spam variabelen voor de Console Logs
-    private bool wasCrouching;
-    private bool wasMovingRight;
-    private bool wasMovingLeft;
 
     void Start()
     {
@@ -78,62 +73,48 @@ public class PlayerMovement : MonoBehaviour
     {
         try
         {
-            // Read Player 1 Axes for movement
             horizontalInput = Input.GetAxisRaw(p1HorizontalAxis);
             verticalInput = Input.GetAxisRaw(p1VerticalAxis);
         }
         catch (UnityException)
         {
-            Debug.LogWarning("WARNING: Input Axes niet ingesteld. Doe dit via Edit -> Project Settings -> Input Manager.");
             return;
         }
 
-        // Crouch check (Left Joystick Down)
-        isCrouching = verticalInput < -0.5f && isGrounded;
+        // Deadzone check (forceert naar 0 bij loslaten)
+        if (Mathf.Abs(horizontalInput) < deadzone) horizontalInput = 0f;
+        if (Mathf.Abs(verticalInput) < deadzone) verticalInput = 0f;
 
-        // Jump check (Left Joystick Up)
-        if (verticalInput > 0.5f && isGrounded && !isCrouching)
+        // Springen (stick omhoog = negatief in Unity)
+        if (verticalInput < -0.5f)
         {
-            Jump();
+            if (isGrounded && !isJumpAxisInUse)
+            {
+                Jump();
+                isJumpAxisInUse = true;
+            }
         }
-
-        LogMovementInputs();
-    }
-
-    private void LogMovementInputs()
-    {
-        // Console log: Loop check met anti-spam
-        if (horizontalInput > 0.5f && !wasMovingRight) { Debug.Log("Running Right!"); wasMovingRight = true; wasMovingLeft = false; }
-        else if (horizontalInput < -0.5f && !wasMovingLeft) { Debug.Log("Running Left!"); wasMovingLeft = true; wasMovingRight = false; }
-        else if (Mathf.Abs(horizontalInput) < 0.1f) { wasMovingRight = false; wasMovingLeft = false; }
-
-        // Console log: Crouch check met anti-spam
-        if (isCrouching && !wasCrouching) { Debug.Log("Crouching!"); wasCrouching = true; }
-        else if (!isCrouching && wasCrouching) { wasCrouching = false; }
+        else
+        {
+            // Lock eraf zodra de stick terugveert
+            isJumpAxisInUse = false;
+        }
     }
 
     private void ApplyMovement()
     {
-        // Kan niet lopen tijdens het bukken
-        if (isCrouching)
-        {
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-            return;
-        }
-
+        // De player beweegt nu altijd soepel op basis van de input
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
     private void Jump()
     {
-        Debug.Log("Jumped!");
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         isGrounded = false;
     }
 
     private void HandleDashInput()
     {
-        // Double-tap detection for Dashing (Flicking Joystick)
         bool pressedRight = horizontalInput > 0.5f && previousHorizontalInput <= 0.5f;
         bool pressedLeft = horizontalInput < -0.5f && previousHorizontalInput >= -0.5f;
 
@@ -156,9 +137,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void StartDash(float direction)
     {
-        Debug.Log(direction > 0 ? "Dashed Right!" : "Dashed Left!");
-        isCrouching = false;
-
         isDashing = true;
         currentDashTime = dashDuration;
         rb.linearVelocity = new Vector2(direction * dashSpeed, 0f);
@@ -167,8 +145,6 @@ public class PlayerMovement : MonoBehaviour
     private void HandleDashState()
     {
         currentDashTime -= Time.deltaTime;
-
-        // Zorg dat je puur horizontaal dash't (geen zwaartekracht tijdens de dash)
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
 
         if (currentDashTime <= 0)
@@ -176,5 +152,17 @@ public class PlayerMovement : MonoBehaviour
             isDashing = false;
             rb.linearVelocity = Vector2.zero;
         }
+    }
+
+    // --- VISUELE DEBUGGER OP JE SCHERM ---
+    void OnGUI()
+    {
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 24;
+        style.normal.textColor = Color.red;
+
+        GUI.Label(new Rect(10, 10, 400, 30), "Vloer geraakt? " + isGrounded, style);
+        GUI.Label(new Rect(10, 40, 400, 30), "Verticaal (Springen): " + verticalInput, style);
+        GUI.Label(new Rect(10, 70, 400, 30), "Horizontaal (Lopen): " + horizontalInput, style);
     }
 }
