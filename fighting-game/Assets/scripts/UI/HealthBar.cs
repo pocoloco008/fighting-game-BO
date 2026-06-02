@@ -1,13 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
-public class HealthBar : MonoBehaviour
+public class HealthBarPlayer1 : MonoBehaviour
 {
 
-    public Slider healthBarSlider;
+    public static event Action<int> onPlayerDies;
+
+    [SerializeField] private KeyCode damageKey;
+    [SerializeField] private KeyCode healthKey;
+
+    public Slider healthBar;
 
     public float maxHealth = 100f;
     public float currentHealth;
+
+    public int playerNumber;
 
 
     void Start()
@@ -18,16 +26,19 @@ public class HealthBar : MonoBehaviour
 
     void Update()
     {
+        healthBar.value = currentHealth;
 
-        healthBarSlider.value = currentHealth;
+        if (currentHealth == 0f)
+        {
+            dead();
 
+        }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(damageKey))
         {
             TakeDamage(1f);
         }
-
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(healthKey))
         {
             addHealth(10f);
         }
@@ -41,6 +52,11 @@ public class HealthBar : MonoBehaviour
     private void addHealth(float health)
     {
         currentHealth += health;
+    }
+
+    private void dead()
+    {
+        onPlayerDies?.Invoke(playerNumber);
     }
 
 }
