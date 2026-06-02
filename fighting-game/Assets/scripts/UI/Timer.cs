@@ -6,15 +6,29 @@ public class Timer : MonoBehaviour
 
     [SerializeField] private Text timerText;
 
+    private float timeRemaining = 90f;
+    private bool timerRunning = true;
+
     private void Start()
     {
         timerText = GetComponent<Text>();
-
-        timerText.text = "90:00";
+        timerText.text = "90";
     }
 
     private void Update()
     {
-     timerText.text = Mathf.Round(90 - Time.time).ToString();
+        if (timerRunning)
+        {
+            timeRemaining -= Time.deltaTime;
+            timerText.text = Mathf.Round(timeRemaining).ToString();
+
+            if (timeRemaining <= 0)
+            {
+                timeRemaining = 0;
+                timerRunning = false;
+                timerText.text = "End";
+            }
+        }
     }
 }
+

@@ -24,18 +24,13 @@ public class HealthBar : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            TakeDamage(10f);
+            TakeDamage(1f);
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
             addHealth(10f);
         }
-
-        /*if (currentHealth == 0)
-        {
-            currentHealth = maxHealth;
-        }*/
     }
 
     private void TakeDamage(float damage)
