@@ -5,9 +5,7 @@ public class Fighter : MonoBehaviour
 {
     public string playerName = "Player 1";
 
-    /// <summary>
     /// Movement
-    /// </summary>
     public float moveSpeed = 4f;
     public Transform opponent;
 
