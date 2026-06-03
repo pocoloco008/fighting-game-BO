@@ -1,0 +1,63 @@
+{
+    "version": 1,
+    "name": "PlayerControls",
+    "maps": [
+        {
+            "name": "GamePlay",
+            "id": "dce0cfd2-4ce7-4d7d-a151-86f974529ee3",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "acd31878-1446-47cc-849a-91ded173de35",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "20a29fd7-d09a-4312-8784-f21cbb224e8c",
+                    "path": "<DualShockGamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GamePlay2",
+            "id": "0f9da8c4-bb8c-40f0-afdf-dd84ca673839",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "5da1616b-df64-43a7-a262-4865556e0d68",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "117e9e04-5b7b-4816-9f0d-c1b32f3822c5",
+                    "path": "<DualShockGamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
