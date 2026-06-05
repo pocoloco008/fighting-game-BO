@@ -236,6 +236,7 @@ MonoBehaviour:
   healthBar: {fileID: 216660236}
   maxHealth: 100
   currentHealth: 0
+  playerNumber: 0
 --- !u!114 &216660236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,7 +529,7 @@ RectTransform:
   m_GameObject: {fileID: 661616134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 368425472}
@@ -536,7 +537,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 460, y: 87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &661616136
 MonoBehaviour:
@@ -560,11 +561,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: f23fb9a612fc0d040a0e530694bd7f8b, type: 3}
-    m_FontSize: 25
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1372,6 +1373,7 @@ MonoBehaviour:
   healthBar: {fileID: 1276298160}
   maxHealth: 100
   currentHealth: 0
+  playerNumber: 0
 --- !u!114 &1276298160
 MonoBehaviour:
   m_ObjectHideFlags: 0
