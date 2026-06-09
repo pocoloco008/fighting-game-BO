@@ -36,7 +36,7 @@ public class HealthBarPlayer1 : MonoBehaviour
 
         if (Input.GetKeyDown(damageKey))
         {
-            TakeDamage(1f);
+            TakeDamage(10f);
         }
         if (Input.GetKeyDown(healthKey))
         {

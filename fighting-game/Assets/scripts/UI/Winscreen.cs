@@ -4,6 +4,9 @@ using UnityEngine.UI;
 public class Winscreen : MonoBehaviour
 {
 
+    [SerializeField] private Text wintext;
+
+
     void OnEnable()
     {
         HealthBarPlayer1.onPlayerDies += DisplayWin;
@@ -18,11 +21,11 @@ public class Winscreen : MonoBehaviour
     {
         if (playerNum == 1)
         {
-            
+            wintext.text = "Player 2 wins!"; 
         }
         else
         {
-
+            wintext.text = "Player 1 wins!";
         }
     }
 }

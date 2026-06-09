@@ -236,7 +236,7 @@ MonoBehaviour:
   healthBar: {fileID: 216660236}
   maxHealth: 100
   currentHealth: 0
-  playerNumber: 0
+  playerNumber: 1
 --- !u!114 &216660236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,6 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9984f60aec4d966419a1fe73dee41930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Winscreen
+  wintext: {fileID: 661616136}
 --- !u!1 &661616134
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +573,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player 1 Wins!
+  m_Text: 
 --- !u!222 &661616137
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1373,7 +1374,7 @@ MonoBehaviour:
   healthBar: {fileID: 1276298160}
   maxHealth: 100
   currentHealth: 0
-  playerNumber: 0
+  playerNumber: 2
 --- !u!114 &1276298160
 MonoBehaviour:
   m_ObjectHideFlags: 0
