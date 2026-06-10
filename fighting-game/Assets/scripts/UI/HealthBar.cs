@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class HealthBarPlayer1 : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
 
     public static event Action<int> onPlayerDies;
