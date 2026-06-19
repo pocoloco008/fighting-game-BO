@@ -1,26 +1,42 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PlayerHealthScript : MonoBehaviour
 {
-    [Header("Health Settings")]
+    public static event Action<int> OnPlayerDies;
+
+    [Header("Player")]
+    public int playerNumber;
+
+    [Header("Health")]
     public float maxHealth = 100f;
     public float currentHealth;
 
-    [Header("UI References")]
-    [Tooltip("Drag the health slider from the UI into this field in the Inspector")]
+    [Header("UI")]
     public Slider healthSlider;
+
+    private bool isDead;
 
     private void Start()
     {
         currentHealth = maxHealth;
-        UpdateHealthUI();
+
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = maxHealth;
+            healthSlider.value = currentHealth;
+        }
     }
 
     public void TakeDamage(float damage)
     {
+        if (isDead)
+            return;
+
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
         UpdateHealthUI();
 
         if (currentHealth <= 0)
@@ -31,8 +47,12 @@ public class PlayerHealthScript : MonoBehaviour
 
     public void Heal(float amount)
     {
+        if (isDead)
+            return;
+
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
         UpdateHealthUI();
     }
 
@@ -40,18 +60,20 @@ public class PlayerHealthScript : MonoBehaviour
     {
         if (healthSlider != null)
         {
-            healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
-        }
-        else
-        {
-            Debug.LogWarning("Health Slider is not assigned in the Inspector!");
         }
     }
 
     private void Die()
     {
-        Debug.Log($"{gameObject.name} has died!");
-        // Add death logic here (e.g., trigger animation, disable player movement, etc.)
+        isDead = true;
+
+        Debug.Log($"{gameObject.name} died");
+
+        OnPlayerDies?.Invoke(playerNumber);
+
+        // Eventueel later:
+        // animator.SetTrigger("Die");
+        // enabled = false;
     }
 }
