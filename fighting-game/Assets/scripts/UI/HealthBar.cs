@@ -59,4 +59,8 @@ public class HealthBar : MonoBehaviour
         onPlayerDies?.Invoke(playerNumber);
     }
 
+    private void healthBarReset()
+    {
+
+    }
 }

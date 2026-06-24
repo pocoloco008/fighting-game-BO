@@ -9,11 +9,11 @@ public class Winscreen : MonoBehaviour
 
     void OnEnable()
     {
-        HealthBar.onPlayerDies += DisplayWin;
+        pointSystem.Win += DisplayWin;
     }
     void OnDisable()
     {
-        HealthBar.onPlayerDies -= DisplayWin;
+        pointSystem.Win -= DisplayWin;
     }
 
 
