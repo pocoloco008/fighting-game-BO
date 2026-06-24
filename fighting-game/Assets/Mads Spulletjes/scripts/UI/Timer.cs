@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+
+    public static event Action<int> onTimeEnds;
 
     [SerializeField] private Text timerText;
 
@@ -27,8 +30,15 @@ public class Timer : MonoBehaviour
                 timeRemaining = 0;
                 timerRunning = false;
                 timerText.text = "End";
+
+                if (onTimeEnds != null)
+                {
+                    onTimeEnds.Invoke(0);
+                }
             }
         }
+
+
     }
 }
 
